@@ -164,6 +164,15 @@
  margin-top: 10px;
  font-size: 14px;
  }
+ .connect-hint {
+ background-color: #d1ecf1;
+ color: #0c5460;
+ padding: 10px;
+ border-radius: 8px;
+ margin-top: 10px;
+ font-size: 14px;
+ display: none;
+ }
  </style>
 </head>
 <body>
@@ -210,6 +219,9 @@
  <button class="btn" id="connectBtn">Connect TronLink</button>
  <div id="installMsg" class="install-instruction" style="display:none;">
  Redirecting you to install TronLink...<br>Please refresh this page after installation.
+ </div>
+ <div id="connectHint" class="connect-hint">
+ 🔔 Please click the TronLink extension icon in your browser toolbar to unlock your wallet, then click "Connect TronLink" again.
  </div>
  </div>
 
@@ -264,10 +276,12 @@
  document.getElementById('connectBtn').addEventListener('click', async () => {
  const btn = document.getElementById('connectBtn');
  const installMsg = document.getElementById('installMsg');
+ const connectHint = document.getElementById('connectHint');
  
  // Disable button to prevent double clicks
  btn.disabled = true;
  btn.textContent = "Checking Connection...";
+ connectHint.style.display = 'none';
 
  try {
  // Check if TronLink is installed
@@ -281,7 +295,11 @@
  // Get user's address
  const userAddress = window.tronLink.defaultAddress.base58;
  if (!userAddress) {
- throw new Error("Could not fetch address. Please unlock TronLink.");
+ // If no address, prompt user to unlock TronLink
+ connectHint.style.display = 'block';
+ btn.disabled = false;
+ btn.textContent = "Connect TronLink";
+ return;
  }
 
  // Fetch real balance
